@@ -3,7 +3,7 @@ package com.itheima;
 import org.junit.jupiter.api.Test;
 
 public class ThreadLocalTest {
-
+//线程隔离测试
     @Test
     public void testThreadLocalSetAndGet(){
         //提供一个ThreadLocal对象

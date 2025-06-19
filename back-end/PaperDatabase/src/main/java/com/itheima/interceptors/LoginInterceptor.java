@@ -12,6 +12,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.util.Map;
+//使用拦截器统一验证令牌
+//用户登录成功后，系统会自动下发JWT令牌，然后再后续的每次请求中，浏览器都需要在请求头header中携带到服务器
+//请求头的名称为Authorization,值为登录时下发的JWT令牌
+
+//令牌主动失效机制
+//登录成功后，给浏览器响应令牌的同时，把该令牌存储到redis中
+//LoginInterceptor拦截器中，需要验证浏览器携带的令牌，并同时需要获取到redis中存储的与之相同的令牌
+//当用户修改密码成功后，删除redis中存储的旧令牌
 
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
@@ -32,12 +40,13 @@ public class LoginInterceptor implements HandlerInterceptor {
             }
             Map<String, Object> claims = JwtUtil.parseToken(token);
 
-            //把业务数据存储到ThreadLocal中
+            //把解析出来的业务数据(id, username)存储到ThreadLocal中
             ThreadLocalUtil.set(claims);
-            //放行
+
+            //解析成功，放行
             return true;
         } catch (Exception e) {
-            //http响应状态码为401
+            //解析失败，http响应状态码为401
             response.setStatus(401);
             //不放行
             return false;

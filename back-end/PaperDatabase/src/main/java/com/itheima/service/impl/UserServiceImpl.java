@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
         userMapper.update(user);
     }
 
+    //请求参数为头像地址
     @Override
     public void updateAvatar(String avatarUrl) {
         Map<String,Object> map = ThreadLocalUtil.get();

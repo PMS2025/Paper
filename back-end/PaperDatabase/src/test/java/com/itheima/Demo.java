@@ -10,6 +10,7 @@ import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
 import java.io.FileInputStream;
 
+//阿里云OSS测试
 public class Demo {
 
     public static void main(String[] args) throws Exception {

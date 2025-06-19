@@ -5,16 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//统一响应结果
+//统一响应结果   spring自动把result对象转换成json字符串
+//lombok 无参构造方法和全参构造方法
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Result<T> {
     private Integer code;//业务状态码  0-成功  1-失败
     private String message;//提示信息
-    private T data;//响应数据
+    private T data;//响应数据  data类型为泛型
 
     //快速返回操作成功响应结果(带响应数据)
+    //success 方法接受泛型类型参数 data
     public static <E> Result<E> success(E data) {
         return new Result<>(0, "操作成功", data);
     }
@@ -24,6 +26,7 @@ public class Result<T> {
         return new Result(0, "操作成功", null);
     }
 
+    //操作失败时响应结果
     public static Result error(String message) {
         return new Result(1, message, null);
     }

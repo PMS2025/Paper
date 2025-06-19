@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/Paper")
-public class PaperController {
+public class  PaperController {
     @Autowired
     PaperServiceImpl paperService;
 

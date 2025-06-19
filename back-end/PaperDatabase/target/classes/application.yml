@@ -16,7 +16,7 @@ spring:
         max-file-size: 10MB
 mybatis:
   configuration:
-    map-underscore-to-camel-case: true #开启驼峰命名和下划线命名的自动转换
+    map-underscore-to-camel-case: true #开启驼峰命名(代码中)和下划线命名(数据库中)的自动转换
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 server:
   port: 8080

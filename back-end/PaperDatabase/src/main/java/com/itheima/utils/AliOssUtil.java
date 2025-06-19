@@ -10,6 +10,7 @@ import com.aliyun.oss.model.PutObjectResult;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+//使用阿里云对象存储服务OSS
 public class AliOssUtil {
 
     // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。

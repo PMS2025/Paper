@@ -79,7 +79,7 @@
       <artifactId>spring-boot-starter-test</artifactId>
     </dependency>
 
-    <!--pageHelper坐标-->
+    <!--pageHelper坐标  这里其实是前端完成的分页-->
     <dependency>
       <groupId>com.github.pagehelper</groupId>
       <artifactId>pagehelper-spring-boot-starter</artifactId>

@@ -21,7 +21,13 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/user")
+//请求的映射路径
+//将 HTTP 请求映射到 MVC 控制器（Controller）的处理方法上。
 @Validated
+//方法参数校验  使用步骤
+//1. 引入Spring Validation起步依赖
+//2. 在参数前面添加@Pattern注解，给regexp这个属性赋值一个正则表达式
+//3. 在Controller类上添加@Validated注解
 public class UserController {
 
     @Autowired
@@ -45,6 +51,9 @@ public class UserController {
         }
     }
 
+    //问题：在未登录情况下，可以访问到其他资源
+    //解决：在其他接口提供服务之前需要对登录状态进行检查。
+    //实现：令牌，令牌就是一段字符串。jwt令牌 json web token
     @PostMapping("/login")
     public Result<String> login(@Pattern(regexp = "^\\S{5,16}$") String username, @Pattern(regexp = "^\\S{5,16}$") String password) {
         //根据用户名查询用户
@@ -57,6 +66,7 @@ public class UserController {
         //判断密码是否正确  loginUser对象中的password是密文
         if (Md5Util.getMD5String(password).equals(loginUser.getPassword())) {
             //登录成功
+            //生成jwt令牌并返回给用户
             Map<String, Object> claims = new HashMap<>();
             claims.put("id", loginUser.getId());
             claims.put("username", loginUser.getUsername());
@@ -69,15 +79,19 @@ public class UserController {
         return Result.error("密码错误");
     }
 
+    //该接口不需要请求参数
     @GetMapping("/userInfo")
     public Result<User> userInfo(/*@RequestHeader(name = "Authorization") String token*/) {
         //根据用户名查询用户
-       /* Map<String, Object> map = JwtUtil.parseToken(token);
+       /* Map<String, Object> map = JwtUtil.parseToken(token);  //通过请求头token获取用户业务参数集合，从而获取用户名
         String username = (String) map.get("username");*/
+        //使用ThreadLocal后不需要声明token参数
+        //在拦截器中把解析出来的用户业务参数集合存到了ThreadLocal中
         Map<String, Object> map = ThreadLocalUtil.get();
         String username = (String) map.get("username");
         User user = userService.findByUserName(username);
         return Result.success(user);
+        //安全性：由于在password添加了@JsonIgnore 注解，所以不会返回密码
     }
 
     @PutMapping("/update")

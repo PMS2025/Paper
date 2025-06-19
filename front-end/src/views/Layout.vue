@@ -35,6 +35,7 @@ getUserInfo();
 import {useRouter} from 'vue-router'
 const router = useRouter();
 import {ElMessage,ElMessageBox} from 'element-plus'
+
 const handleCommand = (command)=>{
     //判断指令
     if(command === 'logout'){
@@ -100,6 +101,12 @@ const handleCommand = (command)=>{
                         </el-icon>
                         <span>更换头像</span>
                     </el-menu-item>
+                    <el-menu-item index="/user/resetPassword">
+                        <el-icon>
+                            <EditPen />
+                        </el-icon>
+                        <span>重置密码</span>
+                    </el-menu-item>
                 </el-sub-menu> 
                 <el-sub-menu index="2">
                     <template #title>
@@ -147,7 +154,7 @@ const handleCommand = (command)=>{
             <!-- 头部区域 -->
             <el-header>
                 <div>论文管理系统：<strong></strong></div>
-                <el-dropdown placement="bottom-end">
+                <el-dropdown placement="bottom-end" @command="handleCommand">
                     <span class="el-dropdown__box">
                         <el-avatar :src="userInfoStore.info.userPic? userInfoStore.info.userPic:avatar" />
                         <el-icon>
@@ -156,8 +163,9 @@ const handleCommand = (command)=>{
                     </span>
                     <template #dropdown>
                         <el-dropdown-menu>
-                            <el-dropdown-item command="profile" :icon="User">基本资料</el-dropdown-item>
+                            <el-dropdown-item command="info" :icon="User">基本资料</el-dropdown-item>
                             <el-dropdown-item command="avatar" :icon="Crop">更换头像</el-dropdown-item>
+                            <el-dropdown-item command="resetPassword" :icon="EditPen">修改密码</el-dropdown-item>
                             <el-dropdown-item command="logout" :icon="SwitchButton">退出登录</el-dropdown-item>
                         </el-dropdown-menu>
                     </template>
